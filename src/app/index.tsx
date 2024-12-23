@@ -21,6 +21,10 @@ export default function Index() {
         </Button>
       </View>
 
+      <Button onPress={() => router.navigate('/(tabs)/home')}>
+        <Button.Title>Home</Button.Title>
+      </Button>
+
     </View>
   )
 }

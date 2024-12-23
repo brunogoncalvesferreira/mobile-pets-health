@@ -22,7 +22,7 @@ export function Features() {
 
         <Feature
           icon={ClipboardPlus}
-          title="Regitro de vacinas"
+          title="Histórico veterinário"
           description="Registro do histórico veterinário do seu pet, como exames e etc."
         />
     </View>

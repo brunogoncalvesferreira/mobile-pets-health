@@ -35,6 +35,7 @@ export default function Login() {
           </Text>
             <TextInput 
               className="border border-zinc-300 rounded-md px-4 py-3 mt-2"
+              secureTextEntry
             />
         </View>
 
