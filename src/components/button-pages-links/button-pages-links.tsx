@@ -1,4 +1,4 @@
-import { Pressable, Text, TouchableOpacity, type PressableProps, type TouchableOpacityProps } from "react-native"
+import {  Text, TouchableOpacity, type TouchableOpacityProps } from "react-native"
 
 import { clsx } from 'clsx'
 

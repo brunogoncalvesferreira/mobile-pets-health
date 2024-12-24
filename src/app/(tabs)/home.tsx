@@ -4,10 +4,14 @@ import { router, type RelativePathString } from "expo-router";
 import { FlatList, ScrollView, Text, View } from "react-native"
 
 const dataLinks: { id: number, to: string, text: string}[] = [
-  { id: 1, to: '/(tabs)/my-pets', text: 'Meus pets' },
+  { id: 1, to: 'my-pets', text: 'Meus pets'},
+  { id: 2, to: 'schedule', text: 'Agendamento'},
+  { id: 3, to: 'vaccines', text: 'Vacinas'},
+  { id: 4, to: 'medical-history', text: 'Histórico Veterinário'},
 ]
 
 export default function Home() {
+
   return (
     <View className="flex-1 bg-green-200">
       <Welcome />
@@ -29,8 +33,6 @@ export default function Home() {
             showsHorizontalScrollIndicator={false}
           />
         </View>
-
-        
 
         <ScrollView showsVerticalScrollIndicator={false} className="p-10">
           <Text className="mt-6 text-zinc-700 font-base">
