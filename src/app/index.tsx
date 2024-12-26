@@ -1,30 +1,30 @@
-import { ScrollView, View } from "react-native"
-import { Features } from "../components/features/features"
-import { Header } from "../components/header/header"
-import { Button } from "../components/button/button"
+import { ScrollView, View } from 'react-native'
+import { Features } from '../components/features/features'
+import { Header } from '../components/header/header'
+import { Button } from '../components/button/button'
 import { router } from 'expo-router'
 
 export default function Index() {
-  return (
-      <View className="flex-1 p-10">
-        <Header/>
+	return (
+		<View className='flex-1 p-10'>
+			<Header />
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<Features />
 
-        <Features/>
+				<View className='space-y-4 mt-10'>
+					<Button onPress={() => router.navigate('/login')}>
+						<Button.Title>Login</Button.Title>
+					</Button>
 
-        
-        <View className="space-y-4">
-          <Button onPress={() => router.navigate('/login')}>
-            <Button.Title>Login</Button.Title>
-          </Button>
+					<Button onPress={() => router.navigate('/register')}>
+						<Button.Title>Registrar</Button.Title>
+					</Button>
 
-          <Button onPress={() => router.navigate('/register')}>
-            <Button.Title>Registrar</Button.Title>
-          </Button>
-
-          <Button onPress={() => router.navigate('/(tabs)/home')}>
-            <Button.Title>Home</Button.Title>
-          </Button>
-        </View>
-      </View>
-  )
+					<Button onPress={() => router.navigate('/(tabs)/home')}>
+						<Button.Title>Home</Button.Title>
+					</Button>
+				</View>
+			</ScrollView>
+		</View>
+	)
 }
