@@ -8,6 +8,7 @@ const dataLinks: { id: number; to: string; text: string }[] = [
 	{ id: 2, to: 'schedule', text: 'Agendamento' },
 	{ id: 3, to: 'vaccines', text: 'Vacinas' },
 	{ id: 4, to: 'medical-history', text: 'Histórico Veterinário' },
+	{ id: 5, to: 'prescriptions-and-exams', text: 'Receituários e Exames' },
 ]
 
 export default function Home() {

@@ -6,7 +6,7 @@ import { DateTimePickerComponent } from '../components/date-time-picker-componen
 import { useState } from 'react'
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 
-export default function MedicalHistory() {
+export default function PrescriptionsAndExams() {
 	const [date, setDate] = useState(new Date())
 
 	const [mode, setMode] = useState('date')
@@ -40,21 +40,21 @@ export default function MedicalHistory() {
 			<Header />
 
 			<Text className='py-10 text-2xl font-title text-zinc-700'>
-				Historico Veterinário
+				Receituários e Exames
 			</Text>
 
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<View className='space-y-10'>
 					<View>
 						<Text className='font-subtitle text-zinc-700'>
-							Nome do histórico
+							Descrição do receituário
 						</Text>
 						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
 					</View>
 
 					<View>
 						<Text className='font-subtitle text-zinc-700'>
-							Descrição do histórico
+							Descrição do exame
 						</Text>
 						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
 					</View>

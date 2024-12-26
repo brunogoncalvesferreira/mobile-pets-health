@@ -3,11 +3,10 @@ import { Text, TextInput, View, ScrollView } from 'react-native'
 
 import { Button } from '../components/button/button'
 
-import DateTimePicker, {
-	type DateTimePickerEvent,
-} from '@react-native-community/datetimepicker'
+import type { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import { Header } from '../components/header/header'
 import { Calendar, Clock } from 'lucide-react-native'
+import { DateTimePickerComponent } from '../components/date-time-picker-component/date-time-picker-component'
 
 export default function Schedule() {
 	const [date, setDate] = useState(new Date())
@@ -108,13 +107,10 @@ export default function Schedule() {
 				</View>
 
 				{show && (
-					<DateTimePicker
-						testID='dateTimePicker'
+					<DateTimePickerComponent
 						value={date}
-						mode={mode as string | any}
-						is24Hour={true}
+						mode={mode}
 						onChange={onChange}
-						display='spinner'
 					/>
 				)}
 			</ScrollView>
