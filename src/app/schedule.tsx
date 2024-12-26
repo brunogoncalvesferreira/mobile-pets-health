@@ -5,8 +5,9 @@ import { Button } from '../components/button/button'
 
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import { Header } from '../components/header/header'
-import { Calendar, Clock } from 'lucide-react-native'
+import { ArrowLeft, Calendar, Clock } from 'lucide-react-native'
 import { DateTimePickerComponent } from '../components/date-time-picker-component/date-time-picker-component'
+import { router } from 'expo-router'
 
 export default function Schedule() {
 	const [date, setDate] = useState(new Date())
@@ -51,11 +52,17 @@ export default function Schedule() {
 		<View className='flex-1 p-10'>
 			<Header />
 
-			<Text className='py-10 text-2xl font-title text-zinc-700'>
-				Agendamento de consultas
-			</Text>
+			<ScrollView showsVerticalScrollIndicator={false} className='mt-10'>
+				<View className='flex-row items-center gap-10 pb-10'>
+					<Button onPress={() => router.back()} className='w-10 h-10'>
+						<Button.Icon icon={ArrowLeft} />
+					</Button>
 
-			<ScrollView showsVerticalScrollIndicator={false}>
+					<Text className='font-title text-xl text-zinc-700'>
+						Agendamento de consulta
+					</Text>
+				</View>
+
 				<View className='space-y-10'>
 					<View>
 						<Text className='font-subtitle text-zinc-700'>

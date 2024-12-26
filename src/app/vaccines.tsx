@@ -1,11 +1,12 @@
 import { ScrollView, Text, TextInput, View } from 'react-native'
 import { Header } from '../components/header/header'
 import { Button } from '../components/button/button'
-import { Calendar } from 'lucide-react-native'
+import { ArrowLeft, Calendar } from 'lucide-react-native'
 
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import { useState } from 'react'
 import { DateTimePickerComponent } from '../components/date-time-picker-component/date-time-picker-component'
+import { router } from 'expo-router'
 
 export default function Vaccines() {
 	const [dateApplication, setDateApplication] = useState(new Date())
@@ -73,11 +74,17 @@ export default function Vaccines() {
 		<View className='flex-1 p-10'>
 			<Header />
 
-			<Text className='py-10 text-2xl font-title text-zinc-700'>
-				Registro de vacinas
-			</Text>
+			<ScrollView showsVerticalScrollIndicator={false} className='mt-10'>
+				<View className='flex-row items-center gap-10 pb-10'>
+					<Button onPress={() => router.back()} className='w-10 h-10'>
+						<Button.Icon icon={ArrowLeft} />
+					</Button>
 
-			<ScrollView showsVerticalScrollIndicator={false}>
+					<Text className='font-title text-xl text-zinc-700'>
+						Registro de vacinas
+					</Text>
+				</View>
+
 				<View className='space-y-10'>
 					<View>
 						<Text className='font-subtitle text-zinc-700'>Nome da vacina</Text>

@@ -1,6 +1,9 @@
 import { FlatList, Text, View } from 'react-native'
 import { Header } from '../components/header/header'
 import { CardMyPets } from '../components/card-my-pets/card-my-pets'
+import { Button } from '../components/button/button'
+import { router } from 'expo-router'
+import { ArrowLeft } from 'lucide-react-native'
 
 const data = [
 	{ id: 1, petName: 'Rex', specie: 'Cachorro', breed: 'Poodle', age: '1' },
@@ -15,7 +18,13 @@ export default function MyPets() {
 		<View className='flex-1 p-10'>
 			<Header />
 
-			<Text className='py-10 text-2xl font-title text-zinc-700'>Meus Pets</Text>
+			<View className='flex-row items-center gap-10 py-10'>
+				<Button onPress={() => router.back()} className='w-10 h-10'>
+					<Button.Icon icon={ArrowLeft} />
+				</Button>
+
+				<Text className='font-title text-xl text-zinc-700'>Meus pets</Text>
+			</View>
 
 			<FlatList
 				data={data}

@@ -10,21 +10,20 @@ export default function Index() {
 			<Header />
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<Features />
-
-				<View className='space-y-4 mt-10'>
-					<Button onPress={() => router.navigate('/login')}>
-						<Button.Title>Login</Button.Title>
-					</Button>
-
-					<Button onPress={() => router.navigate('/register')}>
-						<Button.Title>Registrar</Button.Title>
-					</Button>
-
-					<Button onPress={() => router.navigate('/(tabs)/home')}>
-						<Button.Title>Home</Button.Title>
-					</Button>
-				</View>
 			</ScrollView>
+			<View className='space-y-4 mt-10'>
+				<Button onPress={() => router.navigate('/login')}>
+					<Button.Title>Login</Button.Title>
+				</Button>
+
+				<Button onPress={() => router.navigate('/register')}>
+					<Button.Title>Registrar</Button.Title>
+				</Button>
+
+				<Button onPress={() => router.navigate('/(tabs)/home')}>
+					<Button.Title>Home</Button.Title>
+				</Button>
+			</View>
 		</View>
 	)
 }
