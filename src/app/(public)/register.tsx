@@ -1,8 +1,13 @@
 import { Text, TextInput, View } from 'react-native'
-import { Header } from '../components/header/header'
-import { Button } from '../components/button/button'
+
 import { ArrowLeft } from 'lucide-react-native'
 import { router } from 'expo-router'
+
+import { z } from 'zod'
+import { Header } from '@/components/header/header'
+import { Button } from '@/components/button/button'
+
+const RegisterFormSchema = z.object({})
 
 export default function Register() {
 	return (

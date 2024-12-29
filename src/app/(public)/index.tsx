@@ -1,8 +1,9 @@
 import { ScrollView, View } from 'react-native'
-import { Features } from '../components/features/features'
-import { Header } from '../components/header/header'
-import { Button } from '../components/button/button'
+
 import { router } from 'expo-router'
+import { Header } from '@/components/header/header'
+import { Features } from '@/components/features/features'
+import { Button } from '@/components/button/button'
 
 export default function Index() {
 	return (
@@ -18,10 +19,6 @@ export default function Index() {
 
 				<Button onPress={() => router.navigate('/register')}>
 					<Button.Title>Registrar</Button.Title>
-				</Button>
-
-				<Button onPress={() => router.navigate('/(tabs)/home')}>
-					<Button.Title>Home</Button.Title>
 				</Button>
 			</View>
 		</View>

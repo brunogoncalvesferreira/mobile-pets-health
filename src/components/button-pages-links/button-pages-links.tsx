@@ -13,6 +13,7 @@ type Props = TouchableOpacityProps & {
 export function ButtonPagesLinks({ text, ...rest }: Props) {
 	return (
 		<TouchableOpacity
+			activeOpacity={0.9}
 			className={clsx('bg-green-700 px-4 justify-center rounded-md h-10')}
 			{...rest}
 		>

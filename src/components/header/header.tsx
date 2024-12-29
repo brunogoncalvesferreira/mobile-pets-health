@@ -12,7 +12,7 @@ export function Header() {
 					Pets Health
 				</Text>
 				<Text className='text-gray-500 font-base'>
-					Seu app para organizar a vida dos seus pets.
+					Seu app para organizar a vida dos seus pets
 				</Text>
 			</View>
 		</View>

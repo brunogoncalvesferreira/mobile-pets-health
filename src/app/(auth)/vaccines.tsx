@@ -1,11 +1,11 @@
 import { ScrollView, Text, TextInput, View } from 'react-native'
-import { Header } from '../components/header/header'
-import { Button } from '../components/button/button'
+import { Header } from '@/components/header/header'
+import { Button } from '@/components/button/button'
 import { ArrowLeft, Calendar } from 'lucide-react-native'
 
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import { useState } from 'react'
-import { DateTimePickerComponent } from '../components/date-time-picker-component/date-time-picker-component'
+import { DateTimePickerComponent } from '@/components/date-time-picker-component/date-time-picker-component'
 import { router } from 'expo-router'
 
 export default function Vaccines() {

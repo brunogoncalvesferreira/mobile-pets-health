@@ -1,5 +1,5 @@
-import { ButtonPagesLinks } from '@/src/components/button-pages-links/button-pages-links'
-import { Welcome } from '@/src/components/welcome/welcome'
+import { ButtonPagesLinks } from '@/components/button-pages-links/button-pages-links'
+import { Welcome } from '@/components/welcome/welcome'
 import { router, type RelativePathString } from 'expo-router'
 import { FlatList, ScrollView, Text, View } from 'react-native'
 

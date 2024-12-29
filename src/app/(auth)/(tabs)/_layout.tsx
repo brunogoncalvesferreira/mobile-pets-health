@@ -19,6 +19,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name='home'
 				options={{
+					headerPressOpacity: 0.5,
 					tabBarActiveTintColor: colors.zinc[100],
 					title: 'Home',
 					tabBarIcon: ({ focused }) => {

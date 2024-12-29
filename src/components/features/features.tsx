@@ -7,7 +7,7 @@ export function Features() {
 	return (
 		<View className='flex-1 pt-10'>
 			<Text className='text-zinc-700 font-subtitle'>
-				Funcionalidades do app:
+				Funcionalidades do app
 			</Text>
 
 			<Feature
