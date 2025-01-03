@@ -25,6 +25,7 @@ export default function Login() {
 
 	async function handleSignIn(data: SignInForm) {
 		try {
+
 			await handleAuthenticate(data.email, data.password)
 			
 		} catch (error) {

@@ -7,6 +7,7 @@ import {
 	ActivityIndicator,
 	type TouchableOpacityProps,
 } from 'react-native'
+
 import colors from 'tailwindcss/colors'
 
 interface IconProps {
@@ -22,7 +23,7 @@ function Button({ children, isLoading = false, ...rest }: ButtonProps) {
 		<TouchableOpacity
 			className='bg-green-700 h-12 max-h-14 rounded-2xl flex-row items-center justify-center'
 			disabled={isLoading}
-			activeOpacity={0.7}
+			activeOpacity={0.9}
 			{...rest}
 		>
 			{isLoading ? (

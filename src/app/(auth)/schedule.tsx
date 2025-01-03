@@ -8,17 +8,74 @@ import { Header } from '@/components/header/header'
 import { ArrowLeft, Calendar, Clock } from 'lucide-react-native'
 import { DateTimePickerComponent } from '@/components/date-time-picker-component/date-time-picker-component'
 import { router } from 'expo-router'
+import { set, z } from 'zod'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createAppointments } from '@/http/create-appointments'
+import { useAuth } from '@/contexts/auth-context'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { getPets } from '@/http/get-pets'
+
+const ScheduleFormSchema = z.object({
+	reason: z.string(),
+	nameVet: z.string(),
+	contactVet: z.string(),
+})
+
+type ScheduleForm = z.infer<typeof ScheduleFormSchema>
 
 export default function Schedule() {
 	const [date, setDate] = useState(new Date())
 	const [mode, setMode] = useState('date')
 	const [show, setShow] = useState(false)
 
+	const [isLoading, setIsLoading] = useState(false)
+
+	const { tutor } = useAuth()
+
+	const { data: getPetsFn } = useQuery({
+		queryKey: ['pets'],
+		queryFn: () => getPets(tutor.id),
+	})
+
+	const petsId = getPetsFn?.map((item) => item.id).toString()
+
+	const { control, handleSubmit } = useForm<ScheduleForm>({
+		resolver: zodResolver(ScheduleFormSchema),
+	})
+
+	const { mutateAsync: createAppointmentsFn } = useMutation({
+		mutationFn: createAppointments,
+	})
+
+	async function handleSchedule(data: ScheduleForm) {
+		
+		try {
+			setIsLoading(true)
+
+			await createAppointmentsFn({
+				reason: data.reason,
+				contactVet: data.contactVet,
+				nameVet: data.nameVet,
+				date,
+				petsId: petsId!,
+			})
+
+			setIsLoading(false)
+			router.navigate('/home')
+
+		} catch (error) {
+			console.log(error)
+			setIsLoading(false)
+		}
+	}
+
 	const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
 		const currentDate = selectedDate
 		setShow(false)
 		setDate(currentDate!)
 	}
+
 
 	const showMode = (currentMode: string) => {
 		setShow(true)
@@ -68,21 +125,54 @@ export default function Schedule() {
 						<Text className='font-subtitle text-zinc-700'>
 							Motivo da consulta
 						</Text>
-						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+						<Controller
+						 	control={control}
+							name='reason'
+							render={({ field: { onChange, onBlur, value } }) => (
+								<TextInput 
+									className='border border-zinc-300 rounded-md px-4 py-3 mt-2' 
+									onBlur={onBlur}
+									onChangeText={onChange}
+									value={value}
+								/>
+							)}
+						/>
 					</View>
 
 					<View>
 						<Text className='font-subtitle text-zinc-700'>
 							Nome do veterinário
 						</Text>
-						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+						<Controller
+						 	control={control}
+							name='nameVet'
+							render={({ field: { onChange, onBlur, value } }) => (
+								<TextInput 
+									className='border border-zinc-300 rounded-md px-4 py-3 mt-2' 
+									onBlur={onBlur}
+									onChangeText={onChange}
+									value={value}
+								/>
+							)}
+						/>
 					</View>
 
 					<View>
 						<Text className='font-subtitle text-zinc-700'>
 							Contato do veterinário
 						</Text>
-						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+						<Controller
+						 	control={control}
+							name='contactVet'	
+							render={({ field: { onChange, onBlur, value } }) => (
+								<TextInput 
+									className='border border-zinc-300 rounded-md px-4 py-3 mt-2' 
+									onBlur={onBlur}
+									onChangeText={onChange}
+									value={value}
+								/>
+							)}
+						/>
 					</View>
 
 					<View className='space-y-2'>
@@ -108,7 +198,11 @@ export default function Schedule() {
 						</View>
 					</View>
 
-					<Button>
+					<Button 
+						onPress={handleSubmit(handleSchedule)} 
+						disabled={isLoading} 
+						isLoading={isLoading}
+					>
 						<Button.Title>Agendar</Button.Title>
 					</Button>
 				</View>

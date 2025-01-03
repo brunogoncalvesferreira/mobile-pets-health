@@ -7,6 +7,20 @@ import type { DateTimePickerEvent } from '@react-native-community/datetimepicker
 import { useState } from 'react'
 import { DateTimePickerComponent } from '@/components/date-time-picker-component/date-time-picker-component'
 import { router } from 'expo-router'
+import { set, z } from 'zod'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createVaccine } from '@/http/create-vaccine'
+import { getPets } from '@/http/get-pets'
+import { useAuth } from '@/contexts/auth-context'
+
+const VaccineFormSchema = z.object({
+	name: z.string(),
+	lot: z.string(),
+})
+
+type VaccineForm = z.infer<typeof VaccineFormSchema>
 
 export default function Vaccines() {
 	const [dateApplication, setDateApplication] = useState(new Date())
@@ -17,6 +31,47 @@ export default function Vaccines() {
 
 	const [showApplication, setShowApplication] = useState(false)
 	const [showExpiration, setShowExpiration] = useState(false)
+
+	const [isLoading, setIsLoading] = useState(false)
+
+	const { tutor } = useAuth()
+
+	const { data: getPetsFn } = useQuery({
+		queryKey: ['pets'],
+		queryFn: () => getPets(tutor.id),
+	})
+
+	const petsId = getPetsFn?.map((item) => item.id).toString()
+
+	const { control, handleSubmit } = useForm<VaccineForm>({
+		resolver: zodResolver(VaccineFormSchema),
+	})
+
+	const { mutateAsync: createVaccineFn} = useMutation({
+		mutationFn: createVaccine
+	})
+ 
+	async function handleCreateVaccine(data: VaccineForm) {
+		
+		try {
+			setIsLoading(true)
+
+			await createVaccineFn({
+				name: data.name,
+				lot: data.lot,
+				applicationDate: dateApplication,
+				expirationDate: dateExpiration,
+				petsId: petsId!,
+			})
+
+			setIsLoading(false)
+			router.navigate('/home')
+
+		} catch (error) {
+			console.log(error)
+			setIsLoading(false)
+		}
+	}	
 
 	const onChangeApplication = (
 		event: DateTimePickerEvent,
@@ -88,20 +143,37 @@ export default function Vaccines() {
 				<View className='space-y-10'>
 					<View>
 						<Text className='font-subtitle text-zinc-700'>Nome da vacina</Text>
-						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+						<Controller
+							control={control}
+							name='name'
+							render={({ field: { onChange, value, onBlur } }) => (
+								<TextInput
+									value={value}
+									onChangeText={onChange}
+									className='border border-zinc-300 rounded-md px-4 py-3 mt-2'
+									onBlur={onBlur}
+								/>
+							)}
+
+						/>
 					</View>
 
 					<View>
 						<Text className='font-subtitle text-zinc-700'>Lote</Text>
-						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+						<Controller	
+							control={control}
+							name='lot'
+							render={({ field: { onChange, value, onBlur } }) => (
+								<TextInput
+									value={value}
+									onChangeText={onChange}
+									className='border border-zinc-300 rounded-md px-4 py-3 mt-2'
+									onBlur={onBlur}
+								/>
+							)}
+						/>
 					</View>
 
-					<View>
-						<Text className='font-subtitle text-zinc-700'>
-							Contato do veterinário
-						</Text>
-						<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
-					</View>
 
 					<View className='space-y-2'>
 						<Text className='font-subtitle text-zinc-700'>
@@ -133,7 +205,11 @@ export default function Vaccines() {
 						</View>
 					</View>
 
-					<Button>
+					<Button 
+						onPress={handleSubmit(handleCreateVaccine)}
+						disabled={isLoading}
+						isLoading={isLoading}
+					>
 						<Button.Title>Registrar</Button.Title>
 					</Button>
 				</View>

@@ -6,10 +6,51 @@ import { router } from 'expo-router'
 import { z } from 'zod'
 import { Header } from '@/components/header/header'
 import { Button } from '@/components/button/button'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { createTutor } from '@/http/create-tutor'
+import { useState } from 'react'
 
-const RegisterFormSchema = z.object({})
+const RegisterFormSchema = z.object({
+	name: z.string(),
+	email: z.string().email(),
+	password: z.string().min(6),
+})
+
+type RegisterForm = z.infer<typeof RegisterFormSchema>
 
 export default function Register() {
+	const [isLoading, setIsLoading] = useState(false)
+
+	const { control, handleSubmit } = useForm<RegisterForm>({
+		resolver: zodResolver(RegisterFormSchema),
+	})
+
+	const { mutateAsync: createTutorFn } = useMutation({
+		mutationFn: createTutor
+	})
+
+	async function handleRegister(data: RegisterForm) {
+
+		try {
+			setIsLoading(true)
+
+			await createTutorFn({
+				name: data.name,
+				email: data.email,
+				password: data.password,
+			})
+
+			setIsLoading(false)
+			router.navigate('/login')
+
+		} catch (error) {
+			console.log(error)
+			setIsLoading(false)
+		}
+	}
+
 	return (
 		<View className='flex-1 p-10'>
 			<Header />
@@ -27,23 +68,54 @@ export default function Register() {
 
 				<View>
 					<Text className='font-subtitle text-zinc-700'>Seu nome</Text>
-					<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+					<Controller
+						control={control}
+						name='name'
+						render={({field: {onChange, onBlur, value}}) => (
+							<TextInput
+								className='border border-zinc-300 rounded-md px-4 py-3 mt-2'
+								onBlur={onBlur}
+								onChangeText={onChange}
+								value={value}
+							/>
+						)}
+					/>
 				</View>
 
 				<View>
 					<Text className='font-subtitle text-zinc-700'>E-mail</Text>
-					<TextInput className='border border-zinc-300 rounded-md px-4 py-3 mt-2' />
+					<Controller
+						control={control}
+						name='email'
+						render={({field: {onChange, onBlur, value}}) => (
+							<TextInput
+								className='border border-zinc-300 rounded-md px-4 py-3 mt-2'
+								onBlur={onBlur}
+								onChangeText={onChange}
+								value={value}
+							/>
+						)}
+					/>
 				</View>
 
 				<View>
 					<Text className='font-subtitle text-zinc-700'>Senha</Text>
-					<TextInput
-						className='border border-zinc-300 rounded-md px-4 py-3 mt-2'
-						secureTextEntry
+					<Controller
+						control={control}
+						name='password'
+						render={({field: {onChange, onBlur, value}}) => (
+							<TextInput
+								className='border border-zinc-300 rounded-md px-4 py-3 mt-2'
+								onBlur={onBlur}
+								onChangeText={onChange}
+								value={value}
+								secureTextEntry
+							/>
+						)}
 					/>
 				</View>
 
-				<Button>
+				<Button onPress={handleSubmit(handleRegister)} disabled={isLoading} isLoading={isLoading}>
 					<Button.Title>Cadastrar</Button.Title>
 				</Button>
 			</View>

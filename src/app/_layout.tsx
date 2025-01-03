@@ -15,8 +15,6 @@ import { useEffect } from 'react'
 
 function InitialLayout() {
 	const { isSignedIn, isLoaded } = useAuth()
-
-	console.log(isSignedIn)
 	
 	useEffect(() => {
 		if(isLoaded) return
